@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ContactsApp</string>
+    <string name="title">Mobile Top Up</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="submit">Submit</string>
+    <string name="phone_number_hint">Insert phone number</string>
 </resources>
