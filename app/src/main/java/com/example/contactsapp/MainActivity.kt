@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         val message = "This app needs access to contacts. Please grant access in the app settings."
         Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
             .setAction("Go to Settings") {
-                // Open app settings when the user clicks on the action button
+                // Opens app settings when the user clicks on the action button
                 openAppSettings()
             }.show()
     }
@@ -79,10 +79,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadContacts() {
         runOnUiThread {
-            // Query the contacts
+            // Queries the contacts
             val contacts = getContacts()
 
-            // Create an adapter and set it to the RecyclerView
+            // Creates an adapter and sets it to the RecyclerView
             val adapter = Adapter(contacts)
             binding.rvItems.adapter = adapter
             binding.rvItems.layoutManager = LinearLayoutManager(this)
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                         contactId.toLong()
                     )
 
-                // Query contact photo
+                // Queries contact photo
                 val photoStream = ContactsContract.Contacts.openContactPhotoInputStream(
                     contentResolver,
                     contactUri
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 val contactPhoto = if (photoStream != null) {
                     BitmapFactory.decodeStream(photoStream)
                 } else {
-                    // If no photo is available, create a bitmap with the first letter of the name
+                    // If no photo is available, creates a bitmap with the first letter of the name
                     createTextBitmap(name[0].toString())
                 }
 
@@ -145,7 +145,6 @@ class MainActivity : AppCompatActivity() {
                                     ContactsContract.CommonDataKinds.Phone.NUMBER
                                 )
                             )
-                        // You can customize how you handle the contact data here
                         contactsList.add(Item(contactPhoto, name, phoneNumber))
                     }
                 }
