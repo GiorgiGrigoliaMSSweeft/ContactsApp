@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/recycler_view_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:paddingHorizontal="@dimen/rv_item_padding_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/rv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_phone_number"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="@+id/rv_name"
+        app:srcCompat="@drawable/baseline_person_24" />
+
+    <TextView
+        android:id="@+id/rv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/rv_name_margin_start"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/helvetica"
+        android:textSize="@dimen/rv_name_font_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="John Doe" />
+
+    <TextView
+        android:id="@+id/rv_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/rv_phone_number_margin_start"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/helvetica"
+        android:textColor="#687073"
+        android:textSize="@dimen/rv_phone_number_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_image"
+        app:layout_constraintTop_toBottomOf="@+id/rv_name"
+        tool:text="577667766" />
+
+    <View
+        android:id="@+id/horizontal_line_under_rv_item"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/horizontal_line_height"
+        android:layout_marginTop="@dimen/horizontal_line_rv_margin_top"
+        android:background="@color/horizontal_line_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rv_phone_number"
+        app:layout_constraintTop_toBottomOf="@+id/rv_phone_number" />
+</androidx.constraintlayout.widget.ConstraintLayout>
