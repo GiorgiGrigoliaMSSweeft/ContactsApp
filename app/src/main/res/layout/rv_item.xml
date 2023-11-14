@@ -39,7 +39,7 @@
         android:layout_marginStart="@dimen/rv_phone_number_margin_start"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/helvetica"
-        android:textColor="#687073"
+        android:textColor="@color/rv_phone_number_color"
         android:textSize="@dimen/rv_phone_number_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/rv_image"
