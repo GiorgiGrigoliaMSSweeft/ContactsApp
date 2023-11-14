@@ -21,4 +21,6 @@
     <dimen name="horizontal_line_rv_margin_top">12dp</dimen>
 
     <dimen name="rv_item_padding_horizontal">24dp</dimen>
+
+    <dimen name="recycler_view_margin_top">20dp</dimen>
 </resources>
