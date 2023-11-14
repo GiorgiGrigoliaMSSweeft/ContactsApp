@@ -6,4 +6,5 @@
     <color name="horizontal_line_color">#C2C2C2</color>
     <color name="input_field_color">#0058A2</color>
     <color name="rv_phone_number_color">#687073</color>
+    <color name="rv_contact_name_first_letter_color">#041016</color>
 </resources>

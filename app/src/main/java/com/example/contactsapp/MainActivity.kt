@@ -5,7 +5,11 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -26,7 +30,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS))
                 showPermissionDeniedSettingsMessage()
             else requestContactsPermission()
@@ -112,7 +120,13 @@ class MainActivity : AppCompatActivity() {
                     contentResolver,
                     contactUri
                 )
-                val contactPhoto = photoStream?.let { BitmapFactory.decodeStream(it) }
+
+                val contactPhoto = if (photoStream != null) {
+                    BitmapFactory.decodeStream(photoStream)
+                } else {
+                    // If no photo is available, create a bitmap with the first letter of the name
+                    createTextBitmap(name[0].toString())
+                }
 
                 // Query phone numbers
                 val phoneCursor = contentResolver.query(
@@ -141,4 +155,35 @@ class MainActivity : AppCompatActivity() {
 
         return contactsList
     }
+}
+
+private fun createTextBitmap(text: String): Bitmap {
+    val paint = Paint().apply {
+        color = Color.WHITE
+        textSize = 50f
+        isFakeBoldText = true
+    }
+
+    val imageSize = 100
+    val strokeWidth = 5f
+    val bitmap = Bitmap.createBitmap(imageSize, imageSize, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+
+    // Draws a filled circle with gray stroke
+    paint.color = Color.WHITE
+    canvas.drawCircle(imageSize / 2f, imageSize / 2f, imageSize / 2f - strokeWidth / 2, paint)
+
+    // Draws a gray box stroke around the circle
+    paint.style = Paint.Style.STROKE
+    paint.strokeWidth = strokeWidth
+    paint.color = Color.parseColor("#F0F0F1")
+    canvas.drawCircle(imageSize / 2f, imageSize / 2f, imageSize / 2f - strokeWidth / 2, paint)
+
+    // Draws the text in the center of the circle
+    paint.style = Paint.Style.FILL
+    paint.color = Color.BLACK
+    paint.textAlign = Paint.Align.CENTER
+    canvas.drawText(text, imageSize / 2f, imageSize / 2f - (paint.descent() + paint.ascent()) / 2, paint)
+
+    return bitmap
 }
