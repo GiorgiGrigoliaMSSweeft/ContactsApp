@@ -23,4 +23,10 @@
     <dimen name="rv_item_padding_horizontal">24dp</dimen>
 
     <dimen name="recycler_view_margin_top">20dp</dimen>
+
+    <dimen name="no_result_image_margin_top">20dp</dimen>
+    <dimen name="no_result_header_margin_top">24dp</dimen>
+    <dimen name="no_result_header_font_size">22sp</dimen>
+    <dimen name="no_result_content_margin_top">12dp</dimen>
+    <dimen name="no_result_content_font_size">16sp</dimen>
 </resources>

@@ -45,16 +45,28 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).collect {
-                // Updates adapter with the new data
-                adapter.updateList(
-                    if (viewModel.uiState.value.userInput.isNotBlank()) {
-                        it.retrievedContacts.filter { item ->
-                            item.phoneNumber.contains(viewModel.uiState.value.userInput.trim().replace(Regex("\\D"), ""))
-                        }
-                    } else {
-                        it.retrievedContacts
+                val retrievedContacts = it.retrievedContacts
+                val filteredList = if (viewModel.uiState.value.userInput.isNotBlank()) {
+                    retrievedContacts.filter { item ->
+                        item.phoneNumber.contains(viewModel.uiState.value.userInput.trim().replace(Regex("\\D"), ""))
                     }
-                )
+                } else {
+                    retrievedContacts
+                }
+
+                adapter.updateList(filteredList)
+
+                // Show or hide the image and message based on conditions
+                if (filteredList.isEmpty()) {
+                    binding.noResult.setImageResource(R.drawable.no_result)
+                    binding.noResultHeader.text = getText(R.string.no_results)
+                    binding.noResultMessage.text = getText(R.string.no_results_message)
+                }
+                else {
+                    binding.noResult.setImageDrawable(null)
+                    binding.noResultHeader.text = null
+                    binding.noResultMessage.text = null
+                }
             }
         }
 

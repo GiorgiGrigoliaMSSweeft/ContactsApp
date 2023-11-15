@@ -7,4 +7,6 @@
     <string name="toast_warning_message">Without access to contacts, items can\'t be synced.</string>
     <string name="snacbkar_warning_message">This app needs access to contacts. Please grant access in the app settings.</string>
     <string name="go_to_settings_btn">Go to settings</string>
+    <string name="no_results">No results</string>
+    <string name="no_results_message">Provider with this phone number does not exist</string>
 </resources>
