@@ -4,4 +4,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="submit">Submit</string>
     <string name="phone_number_hint">Insert phone number</string>
+    <string name="toast_warning_message">Without access to contacts, items can\'t be synced.</string>
+    <string name="snacbkar_warning_message">This app needs access to contacts. Please grant access in the app settings.</string>
+    <string name="go_to_settings_btn">Go to settings</string>
 </resources>
