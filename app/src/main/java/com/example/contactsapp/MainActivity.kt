@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactsapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: AppViewModel by viewModels()
     private lateinit var adapter: Adapter
 
+    @OptIn(FlowPreview::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         } else viewModel.loadContacts(this)
 
         lifecycleScope.launch {
-            viewModel.uiState.collect {
+            viewModel.uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).collect {
                 // Updates adapter with the new data
                 adapter.updateList(
                     if (viewModel.uiState.value.userInput.isNotBlank()) {
@@ -54,8 +58,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
+            Log.d("TAG", viewModel.uiState.value.retrievedContacts.toString())
         }
     }
 
@@ -94,5 +100,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val SCHEME = "package"
+        private const val DEBOUNCE_TIMEOUT_MILLIS = 300L
     }
 }
