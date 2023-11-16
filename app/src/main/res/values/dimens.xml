@@ -14,6 +14,8 @@
     <dimen name="submit_font_size">14sp</dimen>
     <dimen name="input_field_radius">12dp</dimen>
 
+    <dimen name="input_field_margin_horizontal">24dp</dimen>
+
     <dimen name="rv_name_font_size">14sp</dimen>
     <dimen name="rv_phone_number_font_size">12sp</dimen>
     <dimen name="rv_name_margin_start">12dp</dimen>

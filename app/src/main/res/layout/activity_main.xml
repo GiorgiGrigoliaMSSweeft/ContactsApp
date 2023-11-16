@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mainLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -49,13 +51,15 @@
         style="@style/custom_input_field_color"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/input_field_margin_start"
         android:layout_marginTop="@dimen/input_field_margin_top"
         app:boxCornerRadiusBottomEnd="@dimen/input_field_radius"
+        android:layout_marginHorizontal="@dimen/input_field_margin_horizontal"
         app:boxCornerRadiusBottomStart="@dimen/input_field_radius"
         app:boxCornerRadiusTopEnd="@dimen/input_field_radius"
         app:boxCornerRadiusTopStart="@dimen/input_field_radius"
-        app:layout_constraintEnd_toStartOf="@+id/cancel_button"
+        app:endIconDrawable="@drawable/baseline_clear_24"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number">
 
@@ -68,19 +72,6 @@
             tools:ignore="VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/submit_button_margin_start"
-        android:layout_marginEnd="@dimen/submit_button_margin_end"
-        android:text="@string/submit"
-        android:textColor="@color/input_field_color"
-        android:textSize="@dimen/submit_font_size"
-        app:layout_constraintBottom_toBottomOf="@+id/phone_number_input_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/phone_number_input_layout"
-        app:layout_constraintTop_toTopOf="@+id/phone_number_input_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_items"

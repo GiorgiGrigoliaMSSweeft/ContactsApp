@@ -1,12 +1,13 @@
 package com.example.contactsapp
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.FlowPreview
@@ -73,8 +75,33 @@ class MainActivity : AppCompatActivity() {
 
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
-            Log.d("TAG", viewModel.uiState.value.retrievedContacts.toString())
         }
+
+        binding.mainLayout.setOnClickListener {
+            hideKeyboard()
+            currentFocus?.clearFocus()
+        }
+
+        // A scroll listener to handle focus change and keyboard dismissal
+        binding.rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                // Check if the RecyclerView is scrolling
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    // Hide keyboard
+                    hideKeyboard()
+
+                    // Clear focus from any focused view
+                    currentFocus?.clearFocus()
+                }
+            }
+        })
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
     private fun requestContactsPermission() {
