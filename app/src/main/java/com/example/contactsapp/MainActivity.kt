@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -59,15 +60,9 @@ class MainActivity : AppCompatActivity() {
                 adapter.updateList(filteredList)
 
                 // Show or hide the image and message based on conditions
-                if (filteredList.isEmpty()) {
-                    binding.noResult.setImageResource(R.drawable.no_result)
-                    binding.noResultHeader.text = getText(R.string.no_results)
-                    binding.noResultMessage.text = getText(R.string.no_results_message)
-                }
-                else {
-                    binding.noResult.setImageDrawable(null)
-                    binding.noResultHeader.text = null
-                    binding.noResultMessage.text = null
+                if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
+                    if (filteredList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
+                    else binding.noResultLayout.root.visibility = View.GONE
                 }
             }
         }

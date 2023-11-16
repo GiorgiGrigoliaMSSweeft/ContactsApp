@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/mainLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -51,9 +51,9 @@
         style="@style/custom_input_field_color"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/input_field_margin_horizontal"
         android:layout_marginTop="@dimen/input_field_margin_top"
         app:boxCornerRadiusBottomEnd="@dimen/input_field_radius"
-        android:layout_marginHorizontal="@dimen/input_field_margin_horizontal"
         app:boxCornerRadiusBottomStart="@dimen/input_field_radius"
         app:boxCornerRadiusTopEnd="@dimen/input_field_radius"
         app:boxCornerRadiusTopStart="@dimen/input_field_radius"
@@ -81,43 +81,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number_input_layout"
-        />
-
-    <ImageView
-        android:id="@+id/noResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/no_result_image_margin_top"
-        android:contentDescription="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number_input_layout" />
 
-    <TextView
-        android:id="@+id/noResultHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/no_result_header_margin_top"
-        android:textSize="@dimen/no_result_header_font_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noResult"
-        tools:text="No result"
-        />
 
-    <TextView
-        android:id="@+id/noResultMessage"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/noResultLayout"
+        layout="@layout/no_result"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/no_result_content_margin_top"
-        android:textColor="@color/no_result_content_color"
-        android:textSize="@dimen/no_result_content_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noResultHeader"
-        tools:text="Provider with this phone number does not exist" />
-
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/rv_items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
