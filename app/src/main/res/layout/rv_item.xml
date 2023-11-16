@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/recycler_view_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    android:paddingHorizontal="@dimen/rv_item_padding_horizontal"
+    android:id="@+id/recyclerViewItem"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/rv_item_padding_horizontal">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/rv_image"
+        android:id="@+id/rvImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_phone_number"
+        app:layout_constraintBottom_toBottomOf="@+id/rvPhoneNumber"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_name"
-        app:shapeAppearanceOverlay="@style/circular"
-        app:srcCompat="@drawable/baseline_person_24" />
+        app:layout_constraintTop_toTopOf="@+id/rvName"
+        app:shapeAppearanceOverlay="@style/circular" />
 
     <TextView
-        android:id="@+id/rv_name"
+        android:id="@+id/rvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/rv_name_margin_start"
@@ -29,12 +28,12 @@
         android:textSize="@dimen/rv_name_font_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_image"
+        app:layout_constraintStart_toEndOf="@+id/rvImage"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="John Doe" />
 
     <TextView
-        android:id="@+id/rv_phone_number"
+        android:id="@+id/rvPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/rv_phone_number_margin_start"
@@ -43,17 +42,18 @@
         android:textColor="@color/rv_phone_number_color"
         android:textSize="@dimen/rv_phone_number_font_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_image"
-        app:layout_constraintTop_toBottomOf="@+id/rv_name"
+        app:layout_constraintStart_toEndOf="@+id/rvImage"
+        app:layout_constraintTop_toBottomOf="@+id/rvName"
         tool:text="577667766" />
 
     <View
-        android:id="@+id/horizontal_line_under_rv_item"
+        android:id="@+id/horizontalLineUnderRvItem"
         android:layout_width="0dp"
         android:layout_height="@dimen/horizontal_line_height"
         android:layout_marginTop="@dimen/horizontal_line_rv_margin_top"
         android:background="@color/horizontal_line_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rv_phone_number"
-        app:layout_constraintTop_toBottomOf="@+id/rv_phone_number" />
+        app:layout_constraintStart_toStartOf="@+id/rvPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/rvPhoneNumber" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

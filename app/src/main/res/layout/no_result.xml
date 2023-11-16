@@ -38,6 +38,6 @@
         android:textSize="@dimen/no_result_content_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noResultHeader"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/noResultHeader" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

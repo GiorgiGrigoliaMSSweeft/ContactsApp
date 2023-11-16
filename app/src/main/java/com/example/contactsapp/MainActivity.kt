@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             else requestContactsPermission()
         } else viewModel.loadContacts(this)
 
-
         lifecycleScope.launch {
             viewModel.uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).collect {
                 val contactList = viewModel.filterContacts()
