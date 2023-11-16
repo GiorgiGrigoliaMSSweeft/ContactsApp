@@ -46,27 +46,19 @@ class MainActivity : AppCompatActivity() {
             else requestContactsPermission()
         } else viewModel.loadContacts(this)
 
+
         lifecycleScope.launch {
             viewModel.uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).collect {
-                val retrievedContacts = it.retrievedContacts
-                val filteredList = if (viewModel.uiState.value.userInput.isNotBlank()) {
-                    retrievedContacts.filter { item ->
-                        item.phoneNumber.contains(viewModel.uiState.value.userInput.trim().replace(Regex("\\D"), ""))
-                    }
-                } else {
-                    retrievedContacts
-                }
-
-                adapter.updateList(filteredList)
+                val contactList = viewModel.filterContacts()
+                adapter.updateList(contactList)
 
                 // Show or hide the image and message based on conditions
-                if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
-                    if (filteredList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
+                if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                    if (contactList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
                     else binding.noResultLayout.root.visibility = View.GONE
                 }
             }
         }
-
 
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())

@@ -32,6 +32,18 @@ class AppViewModel : ViewModel() {
         }
     }
 
+    fun filterContacts(): List<Item> {
+        val contacts = if (_uiState.value.userInput.isNotBlank()) {
+            _uiState.value.retrievedContacts.filter { item ->
+                item.phoneNumber.contains(_uiState.value.userInput.trim().replace(Regex("\\D"), ""))
+            }
+        } else {
+            _uiState.value.retrievedContacts
+        }
+
+        return contacts
+    }
+
     fun loadContacts(context: Context) {
         _uiState.update {
             it.copy(
