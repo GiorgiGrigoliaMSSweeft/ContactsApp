@@ -3,7 +3,6 @@ package com.example.contactsapp
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -13,15 +12,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -29,35 +25,35 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: AppViewModel by viewModels()
     private lateinit var adapter: Adapter
 
-    @OptIn(FlowPreview::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = Adapter(emptyList())
+        adapter = Adapter()
         binding.rvItems.adapter = adapter
-        binding.rvItems.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.rvItems.layoutManager = LinearLayoutManager(this)
 
         // Checks permission and handles each case accordingly
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (!PermissionUtils.isReadContactsPermissionGranted(this)) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS))
                 showPermissionDeniedSettingsMessage()
             else requestContactsPermission()
         } else viewModel.loadContacts(this)
 
         lifecycleScope.launch {
-            viewModel.uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).collect {
-                val contactList = viewModel.filterContacts()
-                adapter.updateList(contactList)
+            viewModel.filterContacts().collect { contactList ->
+                // Updates UI with the filtered contacts
+                adapter.submitList(contactList)
 
                 // Show or hide the image and message based on conditions
-                if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                if (PermissionUtils.isReadContactsPermissionGranted(this@MainActivity)) {
                     if (contactList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
                     else binding.noResultLayout.root.visibility = View.GONE
                 }
             }
         }
+
 
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
@@ -83,6 +79,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (PermissionUtils.isReadContactsPermissionGranted(this) && adapter.currentList.isEmpty())
+            viewModel.loadContacts(this)
     }
 
     private fun hideKeyboard() {
@@ -125,6 +127,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val SCHEME = "package"
-        private const val DEBOUNCE_TIMEOUT_MILLIS = 300L
     }
 }

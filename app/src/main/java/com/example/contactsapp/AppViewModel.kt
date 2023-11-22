@@ -10,14 +10,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.provider.ContactsContract
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class AppViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState())
-    val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
 
     fun updateUserInput(input: String) {
         _uiState.update {
@@ -27,16 +28,13 @@ class AppViewModel : ViewModel() {
         }
     }
 
-    fun filterContacts(): List<Item> {
-        val contacts = if (_uiState.value.userInput.isNotBlank()) {
-            _uiState.value.retrievedContacts.filter { item ->
-                item.phoneNumber.contains(_uiState.value.userInput.trim().replace(Regex("\\D"), ""))
+    @OptIn(FlowPreview::class)
+    fun filterContacts(): Flow<List<Item>> = _uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).map {
+        if (it.userInput.isNotBlank()) {
+            it.retrievedContacts.filter { item ->
+                item.phoneNumber.contains(it.userInput.trim().replace(Regex("\\D"), ""))
             }
-        } else {
-            _uiState.value.retrievedContacts
-        }
-
-        return contacts
+        } else it.retrievedContacts
     }
 
     fun loadContacts(context: Context) {
@@ -98,7 +96,13 @@ class AppViewModel : ViewModel() {
                                     ContactsContract.CommonDataKinds.Phone.NUMBER
                                 )
                             )
-                        contactsList.add(Item(image = contactPhoto, name = name, phoneNumber = phoneNumber.replace(Regex("\\D"), "").replace(" ", "")))
+                        contactsList.add(
+                            Item(
+                                image = contactPhoto,
+                                name = name,
+                                phoneNumber = phoneNumber.replace(Regex("\\D"), "").replace(" ", "")
+                            )
+                        )
                     }
                 }
                 phoneCursor?.close()
@@ -106,6 +110,10 @@ class AppViewModel : ViewModel() {
         }
 
         return contactsList
+    }
+
+    companion object {
+        private const val DEBOUNCE_TIMEOUT_MILLIS = 300L
     }
 }
 
@@ -131,7 +139,12 @@ private fun createTextBitmap(text: String): Bitmap {
     paint.style = Paint.Style.FILL
     paint.color = Color.BLACK
     paint.textAlign = Paint.Align.CENTER
-    canvas.drawText(text, imageSize / 2f, imageSize / 2f - (paint.descent() + paint.ascent()) / 2, paint)
+    canvas.drawText(
+        text,
+        imageSize / 2f,
+        imageSize / 2f - (paint.descent() + paint.ascent()) / 2,
+        paint
+    )
 
     return bitmap
 }
