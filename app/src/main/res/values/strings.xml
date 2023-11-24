@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">ContactsApp</string>
     <string name="title">Mobile Top Up</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="contacts">Contacts</string>
     <string name="submit">Submit</string>
-    <string name="phone_number_hint">Search phone number</string>
+    <string name="contact_hint">Search contacts</string>
     <string name="toast_warning_message">Without access to contacts, items can\'t be synced.</string>
     <string name="snacbkar_warning_message">This app needs access to contacts. Please grant access in the app settings.</string>
     <string name="go_to_settings_btn">Go to settings</string>

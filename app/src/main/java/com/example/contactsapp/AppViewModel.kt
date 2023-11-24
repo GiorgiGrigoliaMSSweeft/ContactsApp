@@ -31,9 +31,14 @@ class AppViewModel : ViewModel() {
     @OptIn(FlowPreview::class)
     fun filterContacts(): Flow<List<Item>> = _uiState.debounce(DEBOUNCE_TIMEOUT_MILLIS).map {
         if (it.userInput.isNotBlank()) {
+            val inputAsNumber = it.userInput.trim().toIntOrNull()
             it.retrievedContacts.filter { item ->
-                item.phoneNumber.contains(it.userInput.trim().replace(Regex("\\D"), ""))
+                if (inputAsNumber != null)
+                    item.phoneNumber.contains(it.userInput.replace("\\s".toRegex(), ""))
+                else
+                    item.name.contains(it.userInput.trim(), ignoreCase = true)
             }
+
         } else it.retrievedContacts
     }
 
