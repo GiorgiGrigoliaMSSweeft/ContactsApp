@@ -31,4 +31,7 @@
     <dimen name="no_result_header_font_size">22sp</dimen>
     <dimen name="no_result_content_margin_top">12dp</dimen>
     <dimen name="no_result_content_font_size">16sp</dimen>
+
+    <dimen name="contact_image_width_height">36dp</dimen>
+    <dimen name="string_image_font_size">14sp</dimen>
 </resources>

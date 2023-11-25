@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/recyclerViewItem"
@@ -10,13 +9,29 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/rvImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/contact_image_width_height"
+        android:layout_height="@dimen/contact_image_width_height"
         android:contentDescription="@null"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/rvPhoneNumber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rvName"
         app:shapeAppearanceOverlay="@style/circular" />
+
+    <TextView
+        android:id="@+id/rvStringImage"
+        style="@style/CircularLetterTextView"
+        android:layout_width="@dimen/contact_image_width_height"
+        android:layout_height="@dimen/contact_image_width_height"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/string_image_font_size"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvPhoneNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvName"
+        tool:text="J" />
 
     <TextView
         android:id="@+id/rvName"

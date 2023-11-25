@@ -1,4 +1,4 @@
-package com.example.contactsapp
+package com.example.contactsapp.fragments
 
 import android.Manifest
 import android.content.Context
@@ -18,21 +18,32 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contactsapp.R
+import com.example.contactsapp.adapter.Adapter
 import com.example.contactsapp.databinding.SearchAndResultsFragmentBinding
+import com.example.contactsapp.permission.PermissionUtils
+import com.example.contactsapp.viewmodel.AppViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-
 class SearchAndResultsFragment : Fragment() {
-    private lateinit var binding: SearchAndResultsFragmentBinding
+    private val binding by lazy {
+        SearchAndResultsFragmentBinding.inflate(layoutInflater)
+    }
     private val viewModel: AppViewModel by viewModels()
     private lateinit var adapter: Adapter
+
+    // Only place where contacts get loaded
+    override fun onResume() {
+        super.onResume()
+        if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && adapter.currentList.isEmpty())
+            lifecycleScope.launch { viewModel.loadContacts(requireContext()) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = SearchAndResultsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,7 +58,7 @@ class SearchAndResultsFragment : Fragment() {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS))
                 showPermissionDeniedSettingsMessage()
             else requestContactsPermission()
-        } else viewModel.loadContacts(requireContext())
+        }
 
         lifecycleScope.launch {
             viewModel.filterContacts().collect { contactList ->
@@ -80,22 +91,16 @@ class SearchAndResultsFragment : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && adapter.currentList.isEmpty())
-            viewModel.loadContacts(requireContext())
-    }
-
     private fun hideKeyboard() {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 
     private fun requestContactsPermission() {
         val requestContactsPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                if (isGranted) viewModel.loadContacts(requireContext())
-                else showPermissionDeniedToast()
+                if (!isGranted) showPermissionDeniedToast()
             }
         requestContactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }

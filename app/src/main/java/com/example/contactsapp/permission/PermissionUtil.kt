@@ -1,4 +1,4 @@
-package com.example.contactsapp
+package com.example.contactsapp.permission
 
 import android.Manifest
 import android.content.Context

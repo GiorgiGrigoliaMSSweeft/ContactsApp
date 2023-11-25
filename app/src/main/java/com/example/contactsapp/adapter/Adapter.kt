@@ -1,10 +1,12 @@
-package com.example.contactsapp
+package com.example.contactsapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.databinding.RvItemBinding
+import com.example.contactsapp.model.Item
 
 class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
     inner class ViewHolder(val binding: RvItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -17,7 +19,14 @@ class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            rvImage.setImageBitmap(getItem(position).image)
+            if (getItem(position).bitmapImage != null) {
+                rvImage.setImageBitmap(getItem(position).bitmapImage)
+                rvImage.visibility = View.VISIBLE
+            } else {
+                rvStringImage.text = getItem(position).name[0].toString()
+                rvStringImage.visibility = View.VISIBLE
+                rvImage.visibility = View.INVISIBLE
+            }
             rvName.text = getItem(position).name
             rvPhoneNumber.text = getItem(position).phoneNumber
         }

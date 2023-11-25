@@ -1,6 +1,7 @@
-package com.example.contactsapp
+package com.example.contactsapp.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.contactsapp.model.Item
 
 // DiffUtil.ItemCallback for Item class
 class ItemDiffCallback : DiffUtil.ItemCallback<Item>() {
