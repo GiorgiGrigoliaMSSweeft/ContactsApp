@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/rvPhoneNumber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rvName"
-        app:shapeAppearanceOverlay="@style/circular" />
+        app:shapeAppearanceOverlay="@style/Circular" />
 
     <TextView
         android:id="@+id/rvStringImage"

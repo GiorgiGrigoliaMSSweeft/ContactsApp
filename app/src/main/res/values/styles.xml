@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="custom_input_field_color">
+
+    <style name="CustomInputFieldColor">
         <item name="boxStrokeColor">@drawable/custom_input_field_color</item>
     </style>
 
-    <style name="circular">
+    <style name="Circular">
         <item name="cornerSize">50%</item>
     </style>
 
     <style name="CircularLetterTextView">
-        <item name="android:background">@drawable/circular_background</item> <!-- Reference to the circular background drawable -->
+        <item name="android:background">@drawable/circular_background</item>
     </style>
+
 </resources>
