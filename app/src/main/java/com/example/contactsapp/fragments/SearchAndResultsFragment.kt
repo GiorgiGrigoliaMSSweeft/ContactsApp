@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +28,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class SearchAndResultsFragment : Fragment() {
-    private val binding by lazy {
-        SearchAndResultsFragmentBinding.inflate(layoutInflater)
-    }
+    private val binding by lazy { SearchAndResultsFragmentBinding.inflate(layoutInflater) }
+    private val adapter by lazy { Adapter() }
     private val viewModel: AppViewModel by viewModels()
-    private lateinit var adapter: Adapter
 
     // Only place where contacts get loaded
     override fun onResume() {
@@ -50,7 +49,6 @@ class SearchAndResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = Adapter()
         binding.rvItems.adapter = adapter
         binding.rvItems.layoutManager = LinearLayoutManager(requireContext())
 
@@ -71,6 +69,7 @@ class SearchAndResultsFragment : Fragment() {
             }
         }
 
+
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
         }
@@ -89,6 +88,15 @@ class SearchAndResultsFragment : Fragment() {
                 }
             }
         })
+
+        adapter.onItemClick = {
+            Log.d("TAG", it.relatedPersonsList.toString())
+            Log.d("TAG", it.emailList.toString())
+            Log.d("TAG", it.secondaryPhoneNumber.toString())
+            Log.d("TAG", it.note.toString())
+            Log.d("TAG", it.company.toString())
+            Log.d("TAG", it.significantDate.toString())
+        }
     }
 
     private fun hideKeyboard() {

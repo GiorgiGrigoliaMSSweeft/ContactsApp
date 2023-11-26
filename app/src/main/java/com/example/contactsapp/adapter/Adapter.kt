@@ -11,6 +11,8 @@ import com.example.contactsapp.model.Item
 class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
     inner class ViewHolder(val binding: RvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
+    var onItemClick: ((Item) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = RvItemBinding.inflate(layoutInflater, parent, false)
@@ -23,12 +25,16 @@ class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
                 rvImage.setImageBitmap(getItem(position).bitmapImage)
                 rvImage.visibility = View.VISIBLE
             } else {
-                rvStringImage.text = getItem(position).name[0].toString()
+                rvStringImage.text = getItem(position)?.name?.get(0)?.toString() ?: ""
                 rvStringImage.visibility = View.VISIBLE
                 rvImage.visibility = View.INVISIBLE
             }
             rvName.text = getItem(position).name
             rvPhoneNumber.text = getItem(position).phoneNumber
+        }
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(getItem(position))
         }
     }
 }
