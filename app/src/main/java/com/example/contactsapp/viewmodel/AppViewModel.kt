@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -19,7 +21,8 @@ import kotlinx.coroutines.withContext
 
 class AppViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState())
-    
+    val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
+
     fun updateUserInput(input: String) {
         _uiState.update {
             it.copy(

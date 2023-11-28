@@ -13,7 +13,6 @@ import com.example.contactsapp.databinding.ContactDetailsFragmentBinding
 class ContactDetailsFragment : Fragment() {
     private val binding by lazy { ContactDetailsFragmentBinding.inflate(layoutInflater) }
     private val adapter by lazy { PhoneNumbersAdapter() }
-
     private val args by navArgs<ContactDetailsFragmentArgs>()
 
     override fun onCreateView(
@@ -27,5 +26,6 @@ class ContactDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.phoneNumberRvItems.adapter = adapter
         binding.phoneNumberRvItems.layoutManager = LinearLayoutManager(requireContext())
+        adapter.submitList(args.selectedItem.additionalPhoneNumbers)
     }
 }

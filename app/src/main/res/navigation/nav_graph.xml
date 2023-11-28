@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav"
-    app:startDestination="@id/searchAndResultsFragment2">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchAndResultsFragment">
 
     <fragment
-        android:id="@+id/searchAndResultsFragment2"
+        android:id="@+id/searchAndResultsFragment"
         android:name="com.example.contactsapp.fragments.SearchAndResultsFragment"
-        android:label="SearchAndResultsFragment" >
+        android:label="SearchAndResultsFragment"
+        tools:layout="@layout/search_and_results_fragment">
         <action
-            android:id="@+id/action_searchAndResultsFragment2_to_contactDetailsFragment"
+            android:id="@+id/action_searchAndResultsFragment_to_contactDetailsFragment"
             app:destination="@id/contactDetailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/contactDetailsFragment"
         android:name="com.example.contactsapp.fragments.ContactDetailsFragment"
-        android:label="ContactDetailsFragment" >
+        android:label="ContactDetailsFragment"
+        tools:layout="@layout/contact_details_fragment">
         <action
-            android:id="@+id/action_contactDetailsFragment_to_searchAndResultsFragment2"
-            app:destination="@id/searchAndResultsFragment2" />
+            android:id="@+id/action_contactDetailsFragment_to_searchAndResultsFragment"
+            app:destination="@id/searchAndResultsFragment" />
         <argument
             android:name="selectedItem"
             app:argType="com.example.contactsapp.model.Item" />
     </fragment>
+
 </navigation>

@@ -16,6 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.R
@@ -50,16 +51,14 @@ class SearchAndResultsFragment : Fragment() {
             else requestContactsPermission()
         }
 
-        lifecycleScope.launch {
-            viewModel.filterContacts().collect { contactList ->
-                adapter.submitList(contactList)
-
-                if (PermissionUtils.isReadContactsPermissionGranted(requireContext())) {
-                    if (contactList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                viewModel.filterContacts().collect { contactList ->
+                    adapter.submitList(contactList)
+                    if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && viewModel.uiState.value.userInput.isNotBlank() && contactList.isEmpty())
+                        binding.noResultLayout.root.visibility = View.VISIBLE
                     else binding.noResultLayout.root.visibility = View.GONE
                 }
             }
-        }
 
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
@@ -81,7 +80,8 @@ class SearchAndResultsFragment : Fragment() {
         })
 
         adapter.onItemClick = {
-
+            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(it)
+            findNavController().navigate(action)
         }
     }
 

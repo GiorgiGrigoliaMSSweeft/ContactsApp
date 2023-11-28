@@ -19,4 +19,4 @@ data class Item(
     val company: String? = null,
     val relatedPersonsList: List<Pair<String, String>>? = null,
     val note: String? = null
-): Parcelable
+) : Parcelable
