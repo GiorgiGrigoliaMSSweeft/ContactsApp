@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -34,6 +37,7 @@ android {
         jvmTarget = "1.8"
     }
 
+    // ViewBinding
     buildFeatures {
         viewBinding = true
     }
@@ -54,5 +58,13 @@ dependencies {
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
+    // Fragment
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    // Fragment Navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.5")
+
+
 }

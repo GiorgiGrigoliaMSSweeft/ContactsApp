@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 
 class AppViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState())
-
+    
     fun updateUserInput(input: String) {
         _uiState.update {
             it.copy(
@@ -39,7 +39,8 @@ class AppViewModel : ViewModel() {
                     item.name?.contains(it.userInput.trim(), ignoreCase = true) ?: false
             }
 
-        } else it.retrievedContacts
+        }
+        else it.retrievedContacts
     }
 
     suspend fun loadContacts(context: Context) {
@@ -85,7 +86,7 @@ class AppViewModel : ViewModel() {
                                 bitmapImage = contactPhoto,
                                 name = name,
                                 phoneNumber = phoneNumbers.first().first,
-                                secondaryPhoneNumber = phoneNumbers,
+                                additionalPhoneNumbers = phoneNumbers,
                                 emailList = emailList,
                                 significantDate = significantDate,
                                 company = company,

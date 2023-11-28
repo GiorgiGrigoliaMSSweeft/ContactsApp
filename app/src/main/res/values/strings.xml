@@ -9,4 +9,6 @@
     <string name="go_to_settings_btn">Go to settings</string>
     <string name="no_results">No results</string>
     <string name="no_results_message">Contact with this phone number does not exist</string>
+
+    <string name="details_title">Contact info</string>
 </resources>

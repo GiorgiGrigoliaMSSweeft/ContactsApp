@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/searchAndResultsFragment2">
+
+    <fragment
+        android:id="@+id/searchAndResultsFragment2"
+        android:name="com.example.contactsapp.fragments.SearchAndResultsFragment"
+        android:label="SearchAndResultsFragment" >
+        <action
+            android:id="@+id/action_searchAndResultsFragment2_to_contactDetailsFragment"
+            app:destination="@id/contactDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailsFragment"
+        android:name="com.example.contactsapp.fragments.ContactDetailsFragment"
+        android:label="ContactDetailsFragment" >
+        <action
+            android:id="@+id/action_contactDetailsFragment_to_searchAndResultsFragment2"
+            app:destination="@id/searchAndResultsFragment2" />
+        <argument
+            android:name="selectedItem"
+            app:argType="com.example.contactsapp.model.Item" />
+    </fragment>
+</navigation>

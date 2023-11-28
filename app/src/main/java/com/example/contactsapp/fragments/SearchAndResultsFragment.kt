@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,13 +30,6 @@ class SearchAndResultsFragment : Fragment() {
     private val binding by lazy { SearchAndResultsFragmentBinding.inflate(layoutInflater) }
     private val adapter by lazy { Adapter() }
     private val viewModel: AppViewModel by viewModels()
-
-    // Only place where contacts get loaded
-    override fun onResume() {
-        super.onResume()
-        if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && adapter.currentList.isEmpty())
-            lifecycleScope.launch { viewModel.loadContacts(requireContext()) }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +61,6 @@ class SearchAndResultsFragment : Fragment() {
             }
         }
 
-
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
         }
@@ -90,13 +81,15 @@ class SearchAndResultsFragment : Fragment() {
         })
 
         adapter.onItemClick = {
-            Log.d("TAG", it.relatedPersonsList.toString())
-            Log.d("TAG", it.emailList.toString())
-            Log.d("TAG", it.secondaryPhoneNumber.toString())
-            Log.d("TAG", it.note.toString())
-            Log.d("TAG", it.company.toString())
-            Log.d("TAG", it.significantDate.toString())
+
         }
+    }
+
+    // Only place where contacts get loaded
+    override fun onResume() {
+        super.onResume()
+        if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && adapter.currentList.isEmpty())
+            lifecycleScope.launch { viewModel.loadContacts(requireContext()) }
     }
 
     private fun hideKeyboard() {

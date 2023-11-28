@@ -24,6 +24,7 @@ class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
             if (getItem(position).bitmapImage != null) {
                 rvImage.setImageBitmap(getItem(position).bitmapImage)
                 rvImage.visibility = View.VISIBLE
+                rvStringImage.visibility = View.GONE
             } else {
                 rvStringImage.text = getItem(position)?.name?.get(0)?.toString() ?: ""
                 rvStringImage.visibility = View.VISIBLE

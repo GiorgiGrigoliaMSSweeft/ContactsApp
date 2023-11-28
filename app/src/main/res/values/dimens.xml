@@ -34,4 +34,10 @@
 
     <dimen name="contact_image_width_height">36dp</dimen>
     <dimen name="string_image_font_size">14sp</dimen>
+
+    <dimen name="details_fragment_padding_horizontal">24dp</dimen>
+    <dimen name="details_title_margin_top">20dp</dimen>
+    <dimen name="details_title_font_size">16sp</dimen>
+
+    <dimen name="contact_details_padding_horizontal">24dp</dimen>
 </resources>
