@@ -89,10 +89,12 @@ class SearchAndResultsFragment : Fragment() {
         })
 
         adapter.onItemClick = {
-            val action =
-                SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(
-                    it
-                )
+            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(it)
+            findNavController().navigate(action)
+        }
+
+        binding.addContactFab.setOnClickListener {
+            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
             findNavController().navigate(action)
         }
     }

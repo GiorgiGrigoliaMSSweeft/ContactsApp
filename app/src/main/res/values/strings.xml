@@ -18,4 +18,16 @@
 
     <string name="company">Company</string>
     <string name="note">Note</string>
+    <string name="add_contact">Add contact</string>
+
+    <string name="add_first_name">Add name</string>
+    <string name="first_name_hint">First name</string>
+
+    <string name="add_last_name">Add last name</string>
+    <string name="last_name_hint">Last name</string>
+
+    <string name="add_number">Add number</string>
+    <string name="number_hint">Number</string>
+
+    <string name="add_photo">Add photo</string>
 </resources>
