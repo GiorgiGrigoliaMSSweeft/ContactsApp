@@ -25,7 +25,10 @@ import com.example.contactsapp.databinding.SearchAndResultsFragmentBinding
 import com.example.contactsapp.permission.PermissionUtils
 import com.example.contactsapp.viewmodel.AppViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchAndResultsFragment : Fragment() {
     private val binding by lazy { SearchAndResultsFragmentBinding.inflate(layoutInflater) }
@@ -51,14 +54,20 @@ class SearchAndResultsFragment : Fragment() {
             else requestContactsPermission()
         }
 
-            lifecycleScope.launch {
-                viewModel.filterContacts().collect { contactList ->
+        lifecycleScope.launch {
+            viewModel.filterContacts().flowOn(Dispatchers.Default).collect { contactList ->
+                withContext(Dispatchers.Main) {
                     adapter.submitList(contactList)
-                    if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && viewModel.uiState.value.userInput.isNotBlank() && contactList.isEmpty())
-                        binding.noResultLayout.root.visibility = View.VISIBLE
-                    else binding.noResultLayout.root.visibility = View.GONE
+
+                    val userInputNotBlank = viewModel.uiState.value.userInput.isNotBlank()
+                    if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && userInputNotBlank) {
+                        if (contactList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
+                        else binding.noResultLayout.root.visibility = View.GONE
+                    } else binding.noResultLayout.root.visibility = View.GONE
                 }
             }
+        }
+
 
         binding.phoneNumberInput.addTextChangedListener {
             viewModel.updateUserInput(it.toString())
@@ -80,7 +89,10 @@ class SearchAndResultsFragment : Fragment() {
         })
 
         adapter.onItemClick = {
-            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(it)
+            val action =
+                SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(
+                    it
+                )
             findNavController().navigate(action)
         }
     }

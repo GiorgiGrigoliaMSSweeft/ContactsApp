@@ -36,7 +36,8 @@ class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
         }
 
         holder.itemView.setOnClickListener {
-            onItemClick?.invoke(getItem(position))
+            val filteredItem = currentList.getOrNull(holder.absoluteAdapterPosition)
+            filteredItem?.let { onItemClick?.invoke(it) }
         }
     }
 }
