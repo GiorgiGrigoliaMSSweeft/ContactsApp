@@ -20,7 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.R
-import com.example.contactsapp.adapter.Adapter
+import com.example.contactsapp.adapters.ContactItemAdapter
 import com.example.contactsapp.databinding.SearchAndResultsFragmentBinding
 import com.example.contactsapp.permission.PermissionUtils
 import com.example.contactsapp.viewmodel.AppViewModel
@@ -32,7 +32,7 @@ import kotlinx.coroutines.withContext
 
 class SearchAndResultsFragment : Fragment() {
     private val binding by lazy { SearchAndResultsFragmentBinding.inflate(layoutInflater) }
-    private val adapter by lazy { Adapter() }
+    private val adapter by lazy { ContactItemAdapter() }
     private val viewModel: AppViewModel by viewModels()
 
     override fun onCreateView(

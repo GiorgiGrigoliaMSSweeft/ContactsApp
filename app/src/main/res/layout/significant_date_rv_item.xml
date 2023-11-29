@@ -7,17 +7,17 @@
     android:layout_marginVertical="@dimen/details_rv_item_layout_margin_vertical">
 
     <TextView
-        android:id="@+id/phoneNumber"
+        android:id="@+id/significantDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="566123999" />
+        tools:text="01.01.200" />
 
     <TextView
-        android:id="@+id/phoneNumberLabel"
+        android:id="@+id/significantDateLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/details_label_rv_item_margin_top"
@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
-        tools:text="Mobile" />
+        app:layout_constraintTop_toBottomOf="@+id/significantDate"
+        tools:text="Birthday" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,5 +12,4 @@
     <style name="CircularLetterTextView">
         <item name="android:background">@drawable/circular_background</item>
     </style>
-
 </resources>

@@ -1,61 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/contactDetailsCardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/details_fragment_cardview_margin_horizontal"
-        android:layout_marginTop="@dimen/details_fragment_cardview_margin_top"
-        app:cardCornerRadius="@dimen/details_fragment_cardview_corner_radius"
-        app:cardElevation="@dimen/details_fragment_cardview_card_elevation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/contactDetailsCardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/details_fragment_cardview_background"
-            android:padding="@dimen/details_fragment_cardview_constraint_padding">
+            android:layout_marginHorizontal="@dimen/details_fragment_cardview_margin_horizontal"
+            android:layout_marginTop="@dimen/details_fragment_cardview_margin_top"
+            app:cardCornerRadius="@dimen/details_fragment_cardview_corner_radius"
+            app:cardElevation="@dimen/details_fragment_cardview_card_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/contactInfoTitle"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/details_title"
-                android:textSize="@dimen/details_fragment_cardview_title_font_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Contact info" />
+                android:background="@color/details_fragment_cardview_background"
+                android:padding="@dimen/details_fragment_cardview_constraint_padding">
 
-            <TextView
-                android:id="@+id/phoneNumbersTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
-                android:text="@string/phone_numbers"
-                android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contactInfoTitle" />
+                <TextView
+                    android:id="@+id/contactInfoTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_title"
+                    android:textSize="@dimen/details_fragment_cardview_title_font_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Contact info" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/phoneNumberRvItems"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumbersTitle" />
+                <TextView
+                    android:id="@+id/phoneNumbersTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/phone_numbers"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contactInfoTitle" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/phoneNumberRvItems"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneNumbersTitle" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/emailTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/email"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneNumberRvItems" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/emailRvItems"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailTitle" />
+
+                <TextView
+                    android:id="@+id/significantDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/significant_dates"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailRvItems" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/significantDateRvItems"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/significantDateTitle" />
+
+                <TextView
+                    android:id="@+id/relatedPersonTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/related_persons"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/significantDateRvItems" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/relatedPersonRvItems"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/relatedPersonTitle" />
+
+                <TextView
+                    android:id="@+id/companyTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/company"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/relatedPersonRvItems" />
+
+                <TextView
+                    android:id="@+id/companyName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_label_rv_item_margin_top"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="@dimen/details_label_rv_item_font_size"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/companyTitle" />
+
+                <TextView
+                    android:id="@+id/noteTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_fragment_cardview_category_title_margin_top"
+                    android:text="@string/note"
+                    android:textSize="@dimen/details_fragment_cardview_category_title_font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/companyName" />
+
+                <TextView
+                    android:id="@+id/noteText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_label_rv_item_margin_top"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="@dimen/details_label_rv_item_font_size"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/noteTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

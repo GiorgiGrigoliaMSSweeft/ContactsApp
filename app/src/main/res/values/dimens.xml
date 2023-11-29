@@ -45,17 +45,17 @@
     <dimen name="rv_item_number_margin_top">2dp</dimen>
 
     <dimen name="phone_number_rv_item_margin_top">20dp</dimen>
-    <dimen name="phone_number_label_rv_item_margin_top">2dp</dimen>
-    <dimen name="phone_number_label_rv_item_font_size">14sp</dimen>
-    <dimen name="phone_number_rv_item_layout_margin_vertical">8dp</dimen>
+    <dimen name="details_label_rv_item_margin_top">2dp</dimen>
+    <dimen name="details_label_rv_item_font_size">14sp</dimen>
+    <dimen name="details_rv_item_layout_margin_vertical">5dp</dimen>
 
     <dimen name="details_fragment_cardview_margin_horizontal">16dp</dimen>
     <dimen name="details_fragment_cardview_margin_top">20dp</dimen>
-    <dimen name="details_fragment_cardview_corner_radius">8dp</dimen>
+    <dimen name="details_fragment_cardview_corner_radius">20dp</dimen>
     <dimen name="details_fragment_cardview_card_elevation">2dp</dimen>
     <dimen name="details_fragment_cardview_constraint_padding">10dp</dimen>
     <dimen name="details_fragment_cardview_title_font_size">20sp</dimen>
 
     <dimen name="details_fragment_cardview_category_title_font_size">16sp</dimen>
-    <dimen name="details_fragment_cardview_category_title_margin_top">10dp</dimen>
+    <dimen name="details_fragment_cardview_category_title_margin_top">20dp</dimen>
 </resources>

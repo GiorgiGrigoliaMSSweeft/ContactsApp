@@ -12,4 +12,10 @@
 
     <string name="details_title">Contact info</string>
     <string name="phone_numbers">Phone numbers</string>
+    <string name="email">E-Mails</string>
+    <string name="significant_dates">Significant dates</string>
+    <string name="related_persons">Related persons</string>
+
+    <string name="company">Company</string>
+    <string name="note">Note</string>
 </resources>

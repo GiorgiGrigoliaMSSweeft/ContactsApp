@@ -107,6 +107,47 @@ class AppViewModel : ViewModel() {
         return@withContext contactsList
     }
 
+    private fun getContactName(context: Context, contactId: String): String? {
+        val nameCursor =
+            context.contentResolver.query( // Use the content resolver of the provided Context to get information about contacts
+                ContactsContract.Contacts.CONTENT_URI, // Look into the contacts data
+                arrayOf(ContactsContract.Contacts.DISPLAY_NAME), // Retrieve only the display name
+                "${ContactsContract.Contacts._ID} = ?", // Look for contacts with a specific ID
+                arrayOf(contactId), // Specify the contact ID
+                null // No specific sorting order
+            )
+
+        // Safely use the nameCursor with the 'use' extension function
+        nameCursor?.use { cursor ->
+            // Find the index of the DISPLAY_NAME column in the cursor.
+            val nameColumnIndex =
+                cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+
+            // Check if there is data in the cursor and if the DISPLAY_NAME column index is valid
+            if (cursor.moveToFirst() && nameColumnIndex != -1) {
+                // If there is data and the column index is valid, get the name at the current cursor position
+                return cursor.getString(nameColumnIndex)
+            }
+        }
+
+        // If no name is found or an issue occurs, return null
+        return null
+    }
+
+    private fun getContactImage(context: Context, contactId: String): Bitmap? {
+        val contactUri = ContentUris.withAppendedId(
+            ContactsContract.Contacts.CONTENT_URI,
+            contactId.toLong()
+        )
+
+        val photoStream = ContactsContract.Contacts.openContactPhotoInputStream(
+            context.contentResolver,
+            contactUri
+        )
+
+        return BitmapFactory.decodeStream(photoStream)
+    }
+
     private fun getPhoneNumbers(
         context: Context,
         contactId: String
@@ -156,47 +197,6 @@ class AppViewModel : ViewModel() {
         }
 
         return phoneNumbersList
-    }
-
-    private fun getContactName(context: Context, contactId: String): String? {
-        val nameCursor =
-            context.contentResolver.query( // Use the content resolver of the provided Context to get information about contacts
-                ContactsContract.Contacts.CONTENT_URI, // Look into the contacts data
-                arrayOf(ContactsContract.Contacts.DISPLAY_NAME), // Retrieve only the display name
-                "${ContactsContract.Contacts._ID} = ?", // Look for contacts with a specific ID
-                arrayOf(contactId), // Specify the contact ID
-                null // No specific sorting order
-            )
-
-        // Safely use the nameCursor with the 'use' extension function
-        nameCursor?.use { cursor ->
-            // Find the index of the DISPLAY_NAME column in the cursor.
-            val nameColumnIndex =
-                cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
-
-            // Check if there is data in the cursor and if the DISPLAY_NAME column index is valid
-            if (cursor.moveToFirst() && nameColumnIndex != -1) {
-                // If there is data and the column index is valid, get the name at the current cursor position
-                return cursor.getString(nameColumnIndex)
-            }
-        }
-
-        // If no name is found or an issue occurs, return null
-        return null
-    }
-
-    private fun getContactImage(context: Context, contactId: String): Bitmap? {
-        val contactUri = ContentUris.withAppendedId(
-            ContactsContract.Contacts.CONTENT_URI,
-            contactId.toLong()
-        )
-
-        val photoStream = ContactsContract.Contacts.openContactPhotoInputStream(
-            context.contentResolver,
-            contactUri
-        )
-
-        return BitmapFactory.decodeStream(photoStream)
     }
 
 
@@ -292,29 +292,6 @@ class AppViewModel : ViewModel() {
         return significantDateList
     }
 
-    private fun getCompany(context: Context, contactId: String): String? {
-        val organizationCursor = context.contentResolver.query(
-            ContactsContract.Data.CONTENT_URI,
-            null,
-            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?",
-            arrayOf(contactId, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE),
-            null
-        )
-
-        organizationCursor?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val companyColumnIndex =
-                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)
-
-                if (companyColumnIndex != -1) {
-                    return cursor.getString(companyColumnIndex)
-                }
-            }
-        }
-
-        return null
-    }
-
     private fun getRelatedPersons(context: Context, contactId: String): List<Pair<String, String>> {
         val relatedPersonsList = mutableListOf<Pair<String, String>>()
 
@@ -360,6 +337,29 @@ class AppViewModel : ViewModel() {
         }
 
         return relatedPersonsList
+    }
+
+    private fun getCompany(context: Context, contactId: String): String? {
+        val organizationCursor = context.contentResolver.query(
+            ContactsContract.Data.CONTENT_URI,
+            null,
+            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?",
+            arrayOf(contactId, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE),
+            null
+        )
+
+        organizationCursor?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val companyColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)
+
+                if (companyColumnIndex != -1) {
+                    return cursor.getString(companyColumnIndex)
+                }
+            }
+        }
+
+        return null
     }
 
     private fun getNote(context: Context, contactId: String): String? {

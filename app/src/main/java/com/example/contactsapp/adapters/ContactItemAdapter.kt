@@ -1,4 +1,4 @@
-package com.example.contactsapp.adapter
+package com.example.contactsapp.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import com.example.contactsapp.databinding.RvItemBinding
 import com.example.contactsapp.diffutils.ItemDiffCallback
 import com.example.contactsapp.model.Item
 
-class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
+class ContactItemAdapter : ListAdapter<Item, ContactItemAdapter.ViewHolder>(ItemDiffCallback()) {
     inner class ViewHolder(val binding: RvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     var onItemClick: ((Item) -> Unit)? = null
