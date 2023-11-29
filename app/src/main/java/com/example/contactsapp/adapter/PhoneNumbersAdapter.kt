@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.databinding.PhoneNumberRvItemBinding
+import com.example.contactsapp.diffutils.PairDiffCallback
 
-class PhoneNumbersAdapter : ListAdapter<Pair<String, String>, PhoneNumbersAdapter.ViewHolder>(PairDiffCallback()) {
+class PhoneNumbersAdapter : ListAdapter<Pair<String, String>, PhoneNumbersAdapter.ViewHolder>(
+    PairDiffCallback()
+) {
     inner class ViewHolder(val binding: PhoneNumberRvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

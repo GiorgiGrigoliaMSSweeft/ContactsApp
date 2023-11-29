@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/headerTitle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/title_margin_top"
         android:fontFamily="@font/helvetica"
         android:text="@string/title"
@@ -32,8 +32,8 @@
 
     <TextView
         android:id="@+id/phoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/phone_number_margin_horizontal"
         android:layout_marginTop="@dimen/phone_number_margin_top"
         android:fontFamily="@font/helvetica"
@@ -47,8 +47,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneNumberInputLayout"
         style="@style/CustomInputFieldColor"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/input_field_margin_horizontal"
         android:layout_marginTop="@dimen/input_field_margin_top"
         app:boxCornerRadiusBottomEnd="@dimen/input_field_radius"

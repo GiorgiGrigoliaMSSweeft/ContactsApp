@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.databinding.RvItemBinding
+import com.example.contactsapp.diffutils.ItemDiffCallback
 import com.example.contactsapp.model.Item
 
 class Adapter : ListAdapter<Item, Adapter.ViewHolder>(ItemDiffCallback()) {
