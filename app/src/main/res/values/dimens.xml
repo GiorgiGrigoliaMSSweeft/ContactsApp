@@ -50,7 +50,7 @@
     <dimen name="details_rv_item_layout_margin_vertical">5dp</dimen>
 
     <dimen name="details_fragment_cardview_margin_horizontal">16dp</dimen>
-    <dimen name="details_fragment_cardview_margin_top">20dp</dimen>
+    <dimen name="details_fragment_cardview_margin_vertical">20dp</dimen>
     <dimen name="details_fragment_cardview_corner_radius">20dp</dimen>
     <dimen name="details_fragment_cardview_card_elevation">2dp</dimen>
     <dimen name="details_fragment_cardview_constraint_padding">10dp</dimen>
