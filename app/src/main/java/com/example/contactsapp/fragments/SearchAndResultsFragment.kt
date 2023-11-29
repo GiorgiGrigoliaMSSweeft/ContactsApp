@@ -1,7 +1,6 @@
 package com.example.contactsapp.fragments
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
@@ -22,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsapp.R
 import com.example.contactsapp.adapters.ContactItemAdapter
 import com.example.contactsapp.databinding.SearchAndResultsFragmentBinding
+import com.example.contactsapp.extensions.hideKeyboard
 import com.example.contactsapp.permission.PermissionUtils
 import com.example.contactsapp.viewmodel.AppViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -61,7 +60,8 @@ class SearchAndResultsFragment : Fragment() {
 
                     val userInputNotBlank = viewModel.uiState.value.userInput.isNotBlank()
                     if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && userInputNotBlank) {
-                        if (contactList.isEmpty()) binding.noResultLayout.root.visibility = View.VISIBLE
+                        if (contactList.isEmpty()) binding.noResultLayout.root.visibility =
+                            View.VISIBLE
                         else binding.noResultLayout.root.visibility = View.GONE
                     } else binding.noResultLayout.root.visibility = View.GONE
                 }
@@ -89,12 +89,16 @@ class SearchAndResultsFragment : Fragment() {
         })
 
         adapter.onItemClick = {
-            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(it)
+            val action =
+                SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToContactDetailsFragment(
+                    it
+                )
             findNavController().navigate(action)
         }
 
         binding.addContactFab.setOnClickListener {
-            val action = SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
+            val action =
+                SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
             findNavController().navigate(action)
         }
     }
@@ -104,12 +108,6 @@ class SearchAndResultsFragment : Fragment() {
         super.onResume()
         if (PermissionUtils.isReadContactsPermissionGranted(requireContext()) && adapter.currentList.isEmpty())
             lifecycleScope.launch { viewModel.loadContacts(requireContext()) }
-    }
-
-    private fun hideKeyboard() {
-        val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 
     private fun requestContactsPermission() {
