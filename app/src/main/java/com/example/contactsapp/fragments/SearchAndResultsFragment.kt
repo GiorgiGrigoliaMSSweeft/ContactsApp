@@ -142,6 +142,6 @@ class SearchAndResultsFragment : Fragment() {
     }
 
     companion object {
-        private const val SCHEME = "package"
+        const val SCHEME = "package"
     }
 }
