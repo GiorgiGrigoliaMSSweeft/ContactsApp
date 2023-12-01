@@ -102,7 +102,7 @@ class SearchAndResultsFragment : Fragment() {
                     SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
                 findNavController().navigate(action)
             } else {
-                Toast.makeText(requireContext(), "The app needs to have an access to your contacts to add an item.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.needs_access_write), Toast.LENGTH_LONG).show()
             }
         }
     }

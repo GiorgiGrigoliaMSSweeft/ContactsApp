@@ -44,7 +44,7 @@ class AddContactFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             if (PermissionUtils.isWriteContactsPermissionGranted(requireContext())) {
                 saveContact()
-                Toast.makeText(requireContext(), "Item added successfully.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.successfully_added), Toast.LENGTH_LONG).show()
             }
             else requestPermissionLauncher.launch(android.Manifest.permission.WRITE_CONTACTS)
         }

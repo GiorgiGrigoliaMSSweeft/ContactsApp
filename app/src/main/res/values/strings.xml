@@ -35,4 +35,8 @@
 
     <string name="save_button">Save</string>
     <string name="perm_denied_not_saved">Permission denied. Contact not saved.</string>
+
+    <string name="successfully_added">Item added successfully.</string>
+
+    <string name="needs_access_write">"The app needs to have an access to your contacts to add an item."</string>
 </resources>
