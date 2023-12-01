@@ -97,9 +97,13 @@ class SearchAndResultsFragment : Fragment() {
         }
 
         binding.addContactFab.setOnClickListener {
-            val action =
-                SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
-            findNavController().navigate(action)
+            if (PermissionUtils.isReadContactsPermissionGranted(requireContext())) {
+                val action =
+                    SearchAndResultsFragmentDirections.actionSearchAndResultsFragmentToAddContactFragment()
+                findNavController().navigate(action)
+            } else {
+                Toast.makeText(requireContext(), "The app needs to have an access to your contacts to add an item.", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
