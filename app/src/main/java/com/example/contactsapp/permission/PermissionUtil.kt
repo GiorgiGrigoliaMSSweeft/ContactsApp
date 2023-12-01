@@ -12,4 +12,11 @@ object PermissionUtils {
             Manifest.permission.READ_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun isWriteContactsPermissionGranted(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.WRITE_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 }

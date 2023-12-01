@@ -61,4 +61,13 @@
 
     <dimen name="fab_margin_end">16dp</dimen>
     <dimen name="fab_margin_bottom">16dp</dimen>
+
+    <dimen name="add_contact_margin_horizontal">20dp</dimen>
+    <dimen name="add_contact_margin_top">20dp</dimen>
+    <dimen name="add_contact_title_font_size">24sp</dimen>
+
+    <dimen name="add_contact_category_title_font_size">18sp</dimen>
+    <dimen name="add_contact_input_margin_top">10dp</dimen>
+    <dimen name="add_contact_image_width_height">100dp</dimen>
+
 </resources>

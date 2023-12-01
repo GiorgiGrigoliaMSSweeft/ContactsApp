@@ -30,4 +30,9 @@
     <string name="number_hint">Number</string>
 
     <string name="add_photo">Add photo</string>
+
+    <string name="image_was_not_selected">Image was not selected. Please try again.</string>
+
+    <string name="save_button">Save</string>
+    <string name="perm_denied_not_saved">Permission denied. Contact not saved.</string>
 </resources>

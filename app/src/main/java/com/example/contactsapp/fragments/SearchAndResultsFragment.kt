@@ -128,7 +128,7 @@ class SearchAndResultsFragment : Fragment() {
 
     private fun showPermissionDeniedSettingsMessage() {
         val message = getString(R.string.snacbkar_warning_message)
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(requireView(), message, Snackbar.ANIMATION_MODE_SLIDE)
             .setAction(R.string.go_to_settings_btn) {
                 openAppSettings()
             }.show()

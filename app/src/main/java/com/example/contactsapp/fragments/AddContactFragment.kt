@@ -1,25 +1,23 @@
 package com.example.contactsapp.fragments
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.READ_MEDIA_IMAGES
-import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
-import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.content.ContentProviderOperation
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.contactsapp.R
 import com.example.contactsapp.databinding.AddContactFragmentBinding
 import com.example.contactsapp.extensions.hideKeyboard
-import com.google.android.material.snackbar.Snackbar
-
+import com.example.contactsapp.permission.PermissionUtils
+import java.io.IOException
+import java.io.InputStream
 
 class AddContactFragment : Fragment() {
     private val binding by lazy { AddContactFragmentBinding.inflate(layoutInflater) }
@@ -31,7 +29,6 @@ class AddContactFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,88 +38,119 @@ class AddContactFragment : Fragment() {
         }
 
         binding.addPhotoButton.setOnClickListener {
-            if (
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    READ_MEDIA_IMAGES
-                ) == PERMISSION_GRANTED)
-            ) {
-                // Full access on Android 13 (API level 33) or higher
-                pickImage.launch("image/*")
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
 
-            } else if (
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    READ_MEDIA_VISUAL_USER_SELECTED
-                ) == PERMISSION_GRANTED
-            ) {
-                // Partial access on Android 14 (API level 34) or higher
-                pickImage.launch("image/*")
+        binding.saveButton.setOnClickListener {
+            if (PermissionUtils.isWriteContactsPermissionGranted(requireContext())) saveContact()
+            else requestPermissionLauncher.launch(android.Manifest.permission.WRITE_CONTACTS)
+        }
+    }
 
-            } else if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    READ_EXTERNAL_STORAGE
-                ) == PERMISSION_GRANTED
-            ) {
-                // Full access up to Android 12 (API level 32)
-                pickImage.launch("image/*")
-
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Permission granted, save the contact
+                saveContact()
             } else {
-                // Access denied
-                if (shouldShowRequestPermissionRationale(READ_MEDIA_IMAGES) ||
-                    shouldShowRequestPermissionRationale(READ_MEDIA_VISUAL_USER_SELECTED) ||
-                    shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)
-                ) {
-                    showPermissionDeniedSettingsMessage()
-                } else requestPermission()
+                // Permission denied
+                Toast.makeText(requireContext(),
+                    getString(R.string.perm_denied_not_saved),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
-    }
 
-    // Register ActivityResult handler
-    private val requestPermissions =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
-            val isGranted = results.any { it.value }
-            if (isGranted) pickImage.launch("image/*")
-        }
+    private fun saveContact() {
+        val firstName = binding.addFirstNameInput.text.toString().trim()
+        val lastName = binding.lastNameInput.text.toString().trim()
+        val number = binding.addNumberInput.text.toString().trim()
+        val photoUri = binding.photo.tag as? Uri
 
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            requestPermissions.launch(
-                arrayOf(
-                    READ_MEDIA_IMAGES,
-                    READ_MEDIA_VISUAL_USER_SELECTED
-                )
+        val cpo = ArrayList<ContentProviderOperation>()
+
+        // Adding contact id
+        cpo.add(ContentProviderOperation.newInsert(
+            ContactsContract.RawContacts.CONTENT_URI)
+            .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+            .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+            .build())
+
+        // Adding first and last names
+        cpo.add(ContentProviderOperation.newInsert(
+            ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0) // Use 0 to refer to the first operation
+            .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+            .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, firstName)
+            .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, lastName)
+            .build()
+        )
+
+        // Adding phone number (mobile)
+        cpo.add(ContentProviderOperation.newInsert(
+            ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0) // Use 0 to refer to the first operation
+            .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+            .build()
+        )
+
+        // Adding image
+        if (photoUri != null) {
+            cpo.add(ContentProviderOperation.newInsert(
+                ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0) // Use 0 to refer to the first operation
+                .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, inputStreamFromUri(photoUri))
+                .build()
             )
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES))
-        } else {
-            requestPermissions.launch(arrayOf(READ_EXTERNAL_STORAGE))
+        }
+
+        try {
+            // Applying the batch
+            requireContext().contentResolver.applyBatch(ContactsContract.AUTHORITY, cpo)
+            Log.d("TAG", "Contact saved")
+        } catch (e: Exception) {
+            Log.e("TAG", "Saving contact failed: ${e.message}")
         }
     }
 
-    private fun showPermissionDeniedSettingsMessage() {
-        val message = "To upload an image, app needs access to your library."
-        Snackbar.make(requireView(), message, Snackbar.ANIMATION_MODE_SLIDE)
-            .setAction("Go to settings") {
-                openAppSettings()
-            }.show()
+
+    // Helper function to convert URI to InputStream
+    private fun inputStreamFromUri(uri: Uri): ByteArray? {
+        var inputStream: InputStream? = null
+        try {
+            inputStream = requireContext().contentResolver.openInputStream(uri)
+            return inputStream?.readBytes()
+        } catch (e: IOException) {
+            // Handle the exception
+            Log.e("TAG", "Error reading bytes from URI: ${e.message}")
+        } finally {
+            try {
+                inputStream?.close()
+            } catch (e: IOException) {
+                // Handle the exception
+                Log.e("TAG", "Error closing InputStream: ${e.message}")
+            }
+        }
+        return null
     }
 
-    private fun openAppSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri =
-            Uri.fromParts(SearchAndResultsFragment.SCHEME, requireActivity().packageName, null)
-        intent.data = uri
-        startActivity(intent)
-    }
 
-
-    private val pickImage =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            // Handle the picked image URI, you can set it to ImageView or do whatever you need
-            binding.photo.setImageURI(uri)
+    // Registers a photo picker activity launcher in single-select mode.
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // Callback is invoked after the user selects a media item or closes the
+            // photo picker.
+            if (uri != null) {
+                binding.photo.setImageURI(uri)
+                binding.photo.tag = uri
+            }
+            else Toast.makeText(
+                requireContext(),
+                getString(R.string.image_was_not_selected),
+                Toast.LENGTH_LONG
+            ).show()
         }
 }
