@@ -88,7 +88,7 @@ class AppViewModel : ViewModel() {
                             Item(
                                 bitmapImage = contactPhoto,
                                 name = name,
-                                phoneNumber = phoneNumbers.first().first,
+                                phoneNumber = phoneNumbers.firstOrNull()?.first,
                                 additionalPhoneNumbers = phoneNumbers,
                                 emailList = emailList,
                                 significantDate = significantDate,

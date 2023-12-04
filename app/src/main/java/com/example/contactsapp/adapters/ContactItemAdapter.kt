@@ -31,8 +31,10 @@ class ContactItemAdapter : ListAdapter<Item, ContactItemAdapter.ViewHolder>(Item
                 rvStringImage.visibility = View.VISIBLE
                 rvImage.visibility = View.INVISIBLE
             }
-            rvName.text = getItem(position).name
-            rvPhoneNumber.text = getItem(position).phoneNumber
+            if (getItem(position).name != null)
+                rvName.text = getItem(position).name
+            if (getItem(position).phoneNumber != null)
+                rvPhoneNumber.text = getItem(position).phoneNumber
         }
 
         holder.itemView.setOnClickListener {
